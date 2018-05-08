@@ -14,4 +14,5 @@ public class CategoriaService {
 	public Categoria buscar(Long id) {
 		return repo.findById(id).orElse(null);
 	}
+
 }
