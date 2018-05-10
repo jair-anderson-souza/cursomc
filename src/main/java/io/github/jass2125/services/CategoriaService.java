@@ -9,6 +9,7 @@ import io.github.jass2125.services.exceptions.ObjetoNaoEncontradoException;
 
 @Service
 public class CategoriaService {
+	
 	@Autowired
 	private CategoriaRepository repo;
 
