@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.github.jass2125</groupId>
-	<artifactId>cursomc</artifactId>
+	<artifactId>meu-cursomc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>cursomc</name>
+	<name>meu-cursomc</name>
 	<description>Estudo de Caso Java Modelagem Conceitual com UML</description>
 
 	<parent>
