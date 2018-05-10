@@ -2,7 +2,9 @@ package io.github.jass2125.domains;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,13 +28,20 @@ public class Produto implements Serializable {
 	private Double preco;
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "PRODUTO_CATEGORIA", 
-		joinColumns = @JoinColumn( name = "produto_id"), 
-		inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
+	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();;
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> items = new HashSet<>();
 
 	public Produto() {
+	}
+
+	public List<Pedido> getPedidos() {
+		List<Pedido> lista = new ArrayList<>();
+		for (ItemPedido item : items) {
+			lista.add(item.getPedido());
+		}
+		return lista;
 	}
 
 	public Produto(Long id, String nome, Double preco) {
@@ -74,6 +84,14 @@ public class Produto implements Serializable {
 
 	public void addCategoria(Categoria categoria) {
 		this.categorias.add(categoria);
+	}
+
+	public boolean getItem(ItemPedido item) {
+		return items.remove(item);
+	}
+
+	public boolean addItem(ItemPedido item) {
+		return this.items.add(item);
 	}
 
 	@Override

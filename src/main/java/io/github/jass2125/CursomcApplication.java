@@ -13,6 +13,7 @@ import io.github.jass2125.domains.Cidade;
 import io.github.jass2125.domains.Cliente;
 import io.github.jass2125.domains.Endereco;
 import io.github.jass2125.domains.Estado;
+import io.github.jass2125.domains.ItemPedido;
 import io.github.jass2125.domains.Pagamento;
 import io.github.jass2125.domains.PagamentoComBoleto;
 import io.github.jass2125.domains.PagamentoComCartao;
@@ -25,9 +26,11 @@ import io.github.jass2125.repositories.CidadeRepository;
 import io.github.jass2125.repositories.ClienteRepository;
 import io.github.jass2125.repositories.EnderecoRepository;
 import io.github.jass2125.repositories.EstadoRepository;
+import io.github.jass2125.repositories.ItemPedidoRepository;
 import io.github.jass2125.repositories.PagamentoRepository;
 import io.github.jass2125.repositories.PedidoRepository;
 import io.github.jass2125.repositories.ProdutoRepository;
+
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
@@ -48,7 +51,11 @@ public class CursomcApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
@@ -107,15 +114,29 @@ public class CursomcApplication implements CommandLineRunner {
 		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 		ped1.setPagamento(pag1);
 
-		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"),null);
+		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"),
+				null);
 		ped2.setPagamento(pag2);
 
 		cli1.addPedido(ped1);
 		cli1.addPedido(ped2);
-		
+
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+
+		ItemPedido item1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
+		ItemPedido item2 = new ItemPedido(ped1, p3, 0.0, 2, 80.00);
+		ItemPedido item3 = new ItemPedido(ped2, p2, 100.0, 1, 800.00);
+
+		ped1.addItem(item1);
+		ped1.addItem(item2);
+
+		ped2.addItem(item3);
+
+		p1.addItem(item1);
+		p2.addItem(item3);
+		p3.addItem(item2);
 		
-		
+		itemPedidoRepository.saveAll(Arrays.asList(item1, item2, item3));
 	}
 }
