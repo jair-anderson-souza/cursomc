@@ -1,12 +1,11 @@
 package io.github.jass2125.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import io.github.jass2125.domains.Produto;
+import io.github.jass2125.domains.Pagamento;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long>{
+public interface PagamentoRepository extends JpaRepository<Pagamento, Long>{
 
 }

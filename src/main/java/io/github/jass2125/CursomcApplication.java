@@ -1,5 +1,6 @@
 package io.github.jass2125;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import io.github.jass2125.domains.Cidade;
 import io.github.jass2125.domains.Cliente;
 import io.github.jass2125.domains.Endereco;
 import io.github.jass2125.domains.Estado;
+import io.github.jass2125.domains.Pagamento;
+import io.github.jass2125.domains.PagamentoComBoleto;
+import io.github.jass2125.domains.PagamentoComCartao;
+import io.github.jass2125.domains.Pedido;
 import io.github.jass2125.domains.Produto;
+import io.github.jass2125.domains.enums.EstadoPagamento;
 import io.github.jass2125.domains.enums.TipoCliente;
 import io.github.jass2125.repositories.CategoriaRepository;
 import io.github.jass2125.repositories.CidadeRepository;
 import io.github.jass2125.repositories.ClienteRepository;
 import io.github.jass2125.repositories.EnderecoRepository;
 import io.github.jass2125.repositories.EstadoRepository;
+import io.github.jass2125.repositories.PagamentoRepository;
+import io.github.jass2125.repositories.PedidoRepository;
 import io.github.jass2125.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -78,7 +90,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 		cli1.addTelefone("27363323");
 		cli1.addTelefone("93838393");
-		
+
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, cid1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, cid2);
 
@@ -88,5 +100,22 @@ public class CursomcApplication implements CommandLineRunner {
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+
+		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pag1);
+
+		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"),null);
+		ped2.setPagamento(pag2);
+
+		cli1.addPedido(ped1);
+		cli1.addPedido(ped2);
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+		
+		
 	}
 }
