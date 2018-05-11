@@ -3,6 +3,7 @@ package io.github.jass2125.resources.exceptions;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> erroDeValidacao(MethodArgumentNotValidException e){
+		ValidationErrors
 		FieldMessage message = new FieldMessage();
 		return null;
 	}
