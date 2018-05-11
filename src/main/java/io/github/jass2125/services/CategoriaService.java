@@ -9,7 +9,7 @@ import io.github.jass2125.services.exceptions.ObjetoNaoEncontradoException;
 
 @Service
 public class CategoriaService {
-	
+
 	@Autowired
 	private CategoriaRepository repo;
 
@@ -20,5 +20,9 @@ public class CategoriaService {
 	public Categoria salvar(Categoria categoria) {
 		categoria.setId(null);
 		return repo.save(categoria);
+	}
+
+	public void delete(Long id) {
+		repo.deleteById(id);
 	}
 }

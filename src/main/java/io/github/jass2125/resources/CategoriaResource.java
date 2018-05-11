@@ -27,13 +27,22 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserir(@RequestBody Categoria categoria){
-		System.out.println("Entrou");
+	public ResponseEntity<Void> inserir(@RequestBody Categoria categoria) {
 		Categoria cat = catService.salvar(categoria);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cat.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
-	
+
+//	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+//	public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
+//		catService.delete(id);
+//		return ResponseEntity.noContent().build();
+//	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity deletar(@PathVariable Long id) {
+		catService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 
 }
