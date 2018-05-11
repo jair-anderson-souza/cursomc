@@ -17,4 +17,8 @@ public class CategoriaService {
 		return repo.findById(id).orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto não encontrado!!"));
 	}
 
+	public Categoria salvar(Categoria categoria) {
+		categoria.setId(null);
+		return repo.save(categoria);
+	}
 }
