@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import io.github.jass2125.domains.Categoria;
+import io.github.jass2125.domains.dto.CategoriaDTO;
 import io.github.jass2125.repositories.CategoriaRepository;
 import io.github.jass2125.services.exceptions.ExclusaoDadosException;
 import io.github.jass2125.services.exceptions.ObjetoNaoEncontradoException;
@@ -49,5 +50,9 @@ public class CategoriaService {
 	public Page<Categoria> searchPageable(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageable = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageable);
+	}
+	
+	public Categoria fromDTOToCategoria(CategoriaDTO categoriaDTO){
+		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
 	}
 }
