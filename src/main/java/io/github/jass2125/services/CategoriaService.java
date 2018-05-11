@@ -25,4 +25,8 @@ public class CategoriaService {
 	public void delete(Long id) {
 		repo.deleteById(id);
 	}
+
+	public Categoria atualizar(Categoria categoria) {
+		return repo.save(categoria);		
+	}
 }

@@ -33,14 +33,15 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).build();
 	}
 
-//	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//	public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
-//		catService.delete(id);
-//		return ResponseEntity.noContent().build();
-//	}
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
+		categoria.setId(id);
+		catService.atualizar(categoria);
+		return ResponseEntity.noContent().build();
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity deletar(@PathVariable Long id) {
+	public ResponseEntity<?> deletar(@PathVariable Long id) {
 		catService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
