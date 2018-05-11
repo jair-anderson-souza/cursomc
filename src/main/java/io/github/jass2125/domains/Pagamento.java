@@ -12,6 +12,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import io.github.jass2125.domains.enums.EstadoPagamento;
 
 @DiscriminatorColumn(name = "PAGAMENTO_TYPE")
@@ -25,6 +28,7 @@ public abstract class Pagamento implements Serializable {
 	private Long id;
 	private Integer estado;
 	@OneToOne
+	@JsonBackReference
 	private Pedido pedido;
 
 	public Pagamento() {
